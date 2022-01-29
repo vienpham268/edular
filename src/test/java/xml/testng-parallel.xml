@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Parallel Testing" thread-count="5" parallel="tests">
+<suite name="Parallel Testing" thread-count="2" parallel="tests">
     <listeners>
         <listener class-name="testing.testng.TestListeners"/>
     </listeners>
-    <test name="Chrome Test">
+    <test name="Chrome">
         <parameter name="browser" value="Chrome"/>
         <parameter name="platform" value="Windows 10"/>
         <parameter name="remote" value="false"/>
         <classes>
-            <class name="testing.testcases.VerifyLocalWeather"/>
+            <class name="testing.testcases.SearchWeatherTest"/>
         </classes>
     </test>
-    <test name="FireFox Test">
+    <test name="FireFox">
         <parameter name="browser" value="Firefox"/>
         <parameter name="platform" value="Windows 10"/>
         <parameter name="remote" value="false"/>
         <classes>
-            <class name="testing.testcases.VerifyLocalWeather"/>
+            <class name="testing.testcases.SearchWeatherTest"/>
         </classes>
     </test>
 </suite>

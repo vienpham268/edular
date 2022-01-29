@@ -5,30 +5,30 @@ import org.testng.annotations.Test;
 import pages.CityPage;
 import pages.NavBar;
 import pages.SearchResultPage;
-import testing.testng.TestAnnotations;
 import testing.testng.TestFrame;
 
-public class VerifyLocalWeather extends TestAnnotations {
+public class SearchWeatherTest extends BaseTest {
 
-    @Test(dataProvider = "valid_queries", dataProviderClass = DP.class,priority = 1)
+    @Test(dataProvider = "valid_queries", dataProviderClass = DP.class, priority = 1)
+
     public void validSearch(String validQuery) {
         new TestFrame("001") {
             @Override
             public void steps() {
-                new NavBar().searchLocation(validQuery);
-                new SearchResultPage().clickOnCityLink();
-                new CityPage().verifyPageShownCorrectly(validQuery);
+                new NavBar(driver).searchLocation(validQuery);
+                new SearchResultPage(driver).clickOnCityLink();
+                new CityPage(driver).verifyPageShownCorrectly("Hanoi, VN");
             }
         }.run();
     }
 
-    @Test(dataProvider = "invalid_queries", dataProviderClass = DP.class,priority = 2)
+    @Test(dataProvider = "invalid_queries", dataProviderClass = DP.class, priority = 2)
     public void invalidSearch(String invalidQuery) {
         new TestFrame("002") {
             @Override
             public void steps() {
-                new NavBar().searchLocation(invalidQuery);
-                new SearchResultPage().verifyNotFoundShown();
+                new NavBar(driver).searchLocation(invalidQuery);
+                new SearchResultPage(driver).verifyNotFoundShown();
             }
         }.run();
     }
@@ -38,8 +38,8 @@ public class VerifyLocalWeather extends TestAnnotations {
         new TestFrame("003") {
             @Override
             public void steps() {
-                new NavBar().searchLocation("");
-                new SearchResultPage().clickOnCityLink();
+                new NavBar(driver).searchLocation("");
+                new SearchResultPage(driver).clickOnCityLink();
             }
         }.run();
     }

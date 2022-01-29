@@ -14,17 +14,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ExcelHandle {
+public class ReadDatas {
 
     private static XSSFWorkbook workbook;
 
-    public static List<String> getValueFromExcelFile(String path, int column) {
+    public static List<String> getDataFromExcel(String path, int column) {
         List<String> listString = new ArrayList<String>();
         try {
             FileInputStream file = new FileInputStream(new File(path));
             workbook = new XSSFWorkbook(file);
             XSSFSheet sheet = workbook.getSheet("Sheet1");
-
             XSSFCell cell;
             Iterator<Row> rows = sheet.rowIterator();
             while (rows.hasNext()) {

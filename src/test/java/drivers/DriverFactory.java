@@ -1,19 +1,23 @@
 package drivers;
 
+import org.openqa.selenium.WebDriver;
+
 public class DriverFactory {
 
-    public static DriverBase runOnBrowser(String sEnvi) {
-        DriverBase baseDriver;
+    public static WebDriver runOnBrowser(String sEnvi) {
+        WebDriver driver;
         switch (sEnvi) {
             case "Firefox":
-                baseDriver = new DriverFirefox();
+                driver = new DriverFirefox().getDriver();
                 break;
 
             default:
-                baseDriver = new DriverChrome();
+                driver = new DriverChrome().getDriver();
                 break;
         }
 
-        return baseDriver;
+        return driver;
     }
+
+
 }

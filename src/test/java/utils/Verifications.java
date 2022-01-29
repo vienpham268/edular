@@ -1,23 +1,23 @@
 package utils;
 
 import constants.WebDriver_Props;
-import drivers.DriverBase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import pages.CommonPage;
+import pages.Selenium;
 
 import java.util.concurrent.TimeUnit;
 
-public class Verifications extends DriverBase {
+public class Verifications {
     private static final Logger LOGGER = LogManager.getLogger(Verifications.class);
-
-    public Verifications(){
-
+    WebDriver driver;
+    public Verifications(WebDriver driver){
+        this.driver = driver;
     }
 
     public boolean verifyAttributeValue(WebElement we, String weName, String sAttribute, String expectedValue) {
-        new CommonPage().driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+        new Selenium(driver).driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         try {
             if (we.getAttribute(sAttribute).contains(expectedValue)) {
                 this.driver.manage().timeouts().implicitlyWait(WebDriver_Props.IMPLICITLY_WAIT, TimeUnit.SECONDS);
@@ -25,7 +25,7 @@ public class Verifications extends DriverBase {
             }
             LOGGER.error("Attribute:'" + sAttribute + "' has actual value is: " + we.getAttribute(sAttribute)
                     + " , It should be: " + expectedValue + " as expected");
-            Result.setFailedBy("Attribute:'" + sAttribute + "' has actual value is: " + we.getAttribute(sAttribute)
+            new Results(driver).setFailedBy("Attribute:'" + sAttribute + "' has actual value is: " + we.getAttribute(sAttribute)
                     + " , It should be: " + expectedValue + " as expected");
             this.driver.manage().timeouts().implicitlyWait(WebDriver_Props.IMPLICITLY_WAIT, TimeUnit.SECONDS);
             return false;
@@ -33,7 +33,7 @@ public class Verifications extends DriverBase {
             System.err.println(e.getMessage());
             LOGGER.error(
                     "Exception when try to verify Attribute:'" + sAttribute + "' of " + weName + " " + we.toString());
-            Result.setFailedBy(
+            new Results(driver).setFailedBy(
                     "Exception when try to verify Attribute:'" + sAttribute + "' of " + weName + " " + we.toString());
             this.driver.manage().timeouts().implicitlyWait(WebDriver_Props.IMPLICITLY_WAIT, TimeUnit.SECONDS);
             return false;
@@ -47,14 +47,14 @@ public class Verifications extends DriverBase {
             }
             LOGGER.error("CSS property:'" + CSSproperty + "' has actual value is: " + we.getCssValue(CSSproperty)
                     + " , It should be: " + expectedValue + " as expected");
-            Result.setFailedBy("CSS property:'" + CSSproperty + "' has actual value is: " + we.getCssValue(CSSproperty)
+            new Results(driver).setFailedBy("CSS property:'" + CSSproperty + "' has actual value is: " + we.getCssValue(CSSproperty)
                     + " , It should be: " + expectedValue + " as expected");
             return false;
         } catch (Exception e) {
             System.err.println(e.getMessage());
             LOGGER.error("Exception when try to verify CSS value of property:'" + CSSproperty + "' of " + weName + " "
                     + we.toString());
-            Result.setFailedBy("Exception when try to verify CSS value of property:'" + CSSproperty + "' of " + weName
+            new Results(driver).setFailedBy("Exception when try to verify CSS value of property:'" + CSSproperty + "' of " + weName
                     + " " + we.toString());
             return false;
         }
@@ -65,14 +65,14 @@ public class Verifications extends DriverBase {
             if (!we.getText().trim().contains(expectedValue.trim())) {
                 LOGGER.error("------>Verify " + weName + ": Actual text is: " + we.getText() + " , It should be: " + expectedValue
                         + " as expected");
-                Result.setFailedBy("------>Verify " + weName + ": Actual text is: " + we.getText() + " , It should be: " + expectedValue
+                new Results(driver).setFailedBy("------>Verify " + weName + ": Actual text is: " + we.getText() + " , It should be: " + expectedValue
                         + " as expected");
             } else {
-                LOGGER.info("------>Verify " + weName + " contains " + expectedValue + " :PASSED");
+                LOGGER.info("------>Verify " + weName + " contains: " + expectedValue + " :PASSED");
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
-            Result.setFailedBy(e.getMessage());
+            new Results(driver).setFailedBy(e.getMessage());
         }
     }
 
@@ -84,7 +84,7 @@ public class Verifications extends DriverBase {
             }
             LOGGER.error(weName + ": Actual text is: " + we.getText() + " , It should be: " + expectedValue
                     + " as expected");
-            Result.setFailedBy(weName + ": Actual text is: " + we.getText() + " , It should be: " + expectedValue
+            new Results(driver).setFailedBy(weName + ": Actual text is: " + we.getText() + " , It should be: " + expectedValue
                     + " as expected");
 
             return false;
@@ -92,7 +92,7 @@ public class Verifications extends DriverBase {
         } catch (Exception e) {
             System.err.println(e.getMessage());
             LOGGER.error("Exception when try to verify text of " + weName + " " + we.toString());
-            Result.setFailedBy("Exception when try to verify text of " + weName + " " + we.toString());
+            new Results(driver).setFailedBy("Exception when try to verify text of " + weName + " " + we.toString());
             return false;
         }
     }
@@ -103,7 +103,7 @@ public class Verifications extends DriverBase {
             LOGGER.info("------>Verify " + weName + " display: PASSED");
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
-            Result.setFailedBy(e.getMessage());
+            new Results(driver).setFailedBy(e.getMessage());
         }
 
     }
@@ -114,7 +114,7 @@ public class Verifications extends DriverBase {
             this.driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
             we.isDisplayed();
             LOGGER.error(weName + we.toString() + " is still displayed");
-            Result.setFailedBy(weName + we.toString() + " is still displayed");
+            new Results(driver).setFailedBy(weName + we.toString() + " is still displayed");
             this.driver.manage().timeouts().implicitlyWait(WebDriver_Props.IMPLICITLY_WAIT, TimeUnit.SECONDS);
             return false;
         } catch (Exception e) {
@@ -130,14 +130,14 @@ public class Verifications extends DriverBase {
                 return true;
             } else {
                 LOGGER.error(weName + we.toString() + " is still disabled");
-                Result.setFailedBy(weName + we.toString() + " is still disabled");
+                new Results(driver).setFailedBy(weName + we.toString() + " is still disabled");
                 return false;
             }
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
             LOGGER.error("Exception when try to verify " + we.toString());
-            Result.setFailedBy("Exception when try to verify " + we.toString());
+            new Results(driver).setFailedBy("Exception when try to verify " + we.toString());
             return false;
         }
     }
@@ -148,14 +148,14 @@ public class Verifications extends DriverBase {
                 return true;
             } else {
                 LOGGER.error(weName + we.toString() + " is still enabled");
-                Result.setFailedBy(weName + we.toString() + " is still enabled");
+                new Results(driver).setFailedBy(weName + we.toString() + " is still enabled");
                 return false;
             }
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
             LOGGER.error("Exception when try to verify " + we.toString());
-            Result.setFailedBy("Exception when try to verify " + we.toString());
+            new Results(driver).setFailedBy("Exception when try to verify " + we.toString());
             return false;
         }
     }
@@ -165,7 +165,7 @@ public class Verifications extends DriverBase {
             this.driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
             we.click();
             LOGGER.error(weName + we.toString() + "is clickable!");
-            Result.setFailedBy(weName + we.toString() + "is still clickable!");
+            new Results(driver).setFailedBy(weName + we.toString() + "is still clickable!");
             this.driver.manage().timeouts().implicitlyWait(WebDriver_Props.IMPLICITLY_WAIT, TimeUnit.SECONDS);
             return false;
         } catch (Exception e) {
@@ -184,7 +184,7 @@ public class Verifications extends DriverBase {
         } catch (Exception e) {
             System.err.println(e.getMessage());
             LOGGER.error(weName + we.toString() + "is UnClickable!");
-            Result.setFailedBy(weName + we.toString() + "is still UnClickable!");
+            new Results(driver).setFailedBy(weName + we.toString() + "is still UnClickable!");
             this.driver.manage().timeouts().implicitlyWait(WebDriver_Props.IMPLICITLY_WAIT, TimeUnit.SECONDS);
             return false;
         }

@@ -2,20 +2,20 @@ package pages;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
-import utils.Result;
+import utils.Results;
 import utils.Verifications;
 
 import java.util.List;
 
-public class SearchResultPage extends CommonPage{
+public class SearchResultPage extends Selenium {
     private static final Logger LOGGER = LogManager.getLogger(SearchResultPage.class);
-
-
-    public SearchResultPage() {
+    public SearchResultPage(WebDriver driver) {
+        super(driver);
         PageFactory.initElements(this.driver, this);
     }
 
@@ -31,21 +31,20 @@ public class SearchResultPage extends CommonPage{
     @FindBy(id = "pbar")
     WebElement progressbar;
 
-
     public void clickOnCityLink() {
         try {
             LOGGER.info("Clicking on first link...");
             this.clickOnElement(cityLink);
         } catch (Exception e) {
-            Result.setFailedBy(e.getMessage());
-            Assert.assertTrue(Result.result);
+            new Results(driver).setFailedBy(e.getMessage());
+            Assert.assertTrue(Results.result);
         }
 
     }
 
 
     public SearchResultPage verifyNotFoundShown() {
-        new Verifications().verifyTextValueContains(txt_NotFound, "Not found text", "Not found");
+        new Verifications(driver).verifyTextValueContains(txt_NotFound, "", "Not found");
         return this;
     }
 }

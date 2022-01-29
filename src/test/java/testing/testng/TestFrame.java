@@ -1,7 +1,7 @@
 package testing.testng;
 
 import org.testng.Assert;
-import utils.Result;
+import utils.Results;
 
 public abstract class TestFrame {
     public String testID;
@@ -18,7 +18,7 @@ public abstract class TestFrame {
     }
 
     private void verify() {
-        Assert.assertTrue(Result.result);
+        Assert.assertTrue(Results.result);
     }
 
 }

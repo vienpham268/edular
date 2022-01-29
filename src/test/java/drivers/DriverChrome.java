@@ -2,6 +2,7 @@ package drivers;
 
 import constants.Paths;
 import org.openqa.selenium.Platform;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.logging.LogType;
@@ -22,36 +23,36 @@ public class DriverChrome extends DriverBase {
     }
 
     @Override
-    public void setLocalDriver() {
+    public WebDriver getDriver() {
         System.setProperty("webdriver.chrome.driver", Paths.DRIVER_CHROME);
         System.setProperty("webdriver.chrome.args", "--disable-logging");
         System.setProperty("webdriver.chrome.silentOutput", "true");
-
         LoggingPreferences loPreferences = new LoggingPreferences();
         loPreferences.enable(LogType.PERFORMANCE, Level.ALL);
         ChromeOptions opt = new ChromeOptions();
         opt.setCapability(CapabilityType.LOGGING_PREFS, loPreferences);
-        this.driver = new ChromeDriver(opt);
+        driver = new ChromeDriver(opt);
+        return driver;
     }
 
-    @Override
-    public void setRemoteDriver() {
-        System.setProperty("webdriver.chrome.args", "--disable-logging");
-        System.setProperty("webdriver.chrome.silentOutput", "true");
-        DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
-        ChromeOptions opt = new ChromeOptions();
-        LoggingPreferences loPreferences = new LoggingPreferences();
-        loPreferences.enable(LogType.PERFORMANCE, Level.ALL);
-        opt.setCapability(CapabilityType.LOGGING_PREFS, loPreferences);
-        desiredCapabilities.setCapability("chromeOptions", opt);
-        desiredCapabilities.setBrowserName("chrome");
-        desiredCapabilities.setPlatform(Platform.WINDOWS);
-        try {
-            this.driver = new RemoteWebDriver(new URL(hubUrl), desiredCapabilities);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-    }
+//    @Override
+//    public void setRemoteDriver() {
+//        System.setProperty("webdriver.chrome.args", "--disable-logging");
+//        System.setProperty("webdriver.chrome.silentOutput", "true");
+//        DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
+//        ChromeOptions opt = new ChromeOptions();
+//        LoggingPreferences loPreferences = new LoggingPreferences();
+//        loPreferences.enable(LogType.PERFORMANCE, Level.ALL);
+//        opt.setCapability(CapabilityType.LOGGING_PREFS, loPreferences);
+//        desiredCapabilities.setCapability("chromeOptions", opt);
+//        desiredCapabilities.setBrowserName("chrome");
+//        desiredCapabilities.setPlatform(Platform.WINDOWS);
+//        try {
+//            driver = new RemoteWebDriver(new URL(hubUrl), desiredCapabilities);
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 
 }

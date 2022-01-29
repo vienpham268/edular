@@ -2,21 +2,26 @@ package utils;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import pages.CommonPage;
+import org.openqa.selenium.WebDriver;
+import pages.Selenium;
 
 import java.util.ArrayList;
 
-public class Result {
+public class Results {
+    WebDriver driver;
     public static boolean result = true;
     public static String base64Screenshot;
     public static ArrayList<String> messages = new ArrayList<String>();
     public static ArrayList<String> screenshots = new ArrayList<String>();
 
-    public static void setFailedBy(String msg) {
+    public Results(WebDriver driver){
+        this.driver = driver;
+    }
+    public  void setFailedBy(String msg) {
         result = false;
         messages.add(msg);
         screenshots.add(base64Screenshot = "data:image/png;base64,"
-                + ((TakesScreenshot) new CommonPage().driver).getScreenshotAs(OutputType.BASE64));
+                + ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64));
     }
 
     public static void resetResult() {

@@ -2,6 +2,7 @@ package pages;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -10,10 +11,10 @@ import utils.Verifications;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CityPage extends CommonPage{
+public class CityPage extends Selenium {
 
-
-    public CityPage() {
+    public CityPage(WebDriver driver) {
+        super(driver);
         PageFactory.initElements(this.driver, this);
     }
 
@@ -35,8 +36,8 @@ public class CityPage extends CommonPage{
 
 
     public void verifyPageShownCorrectly(String sCity) {
-        new Verifications().verifyTextValueContains(txt_Date, "Date", getCurrentDate());
-        new Verifications().verifyTextValueContains(txt_CityName, "City Name", sCity);
-        new Verifications().verifyElementDisplay(txt_CurrentTemp, "Current Temp");
+        new Verifications(driver).verifyTextValueContains(txt_Date, "Date", getCurrentDate());
+        new Verifications(driver).verifyTextValueContains(txt_CityName, "City Name", sCity);
+        new Verifications(driver).verifyElementDisplay(txt_CurrentTemp, "Current Temp");
     }
 }
