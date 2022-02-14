@@ -1,7 +1,7 @@
 package testing.testcases;
 
 import constants.Paths;
-import constants.WebDriver_Props;
+import constants.WaitTimes;
 import drivers.DriverFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +25,7 @@ public class BaseTest {
         LOGGER.info("Running on : " + browser);
         killDriversBeforeRun();
         driver = DriverFactory.runOnBrowser(browser);
-        driver.manage().timeouts().implicitlyWait(WebDriver_Props.IMPLICITLY_WAIT, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(WaitTimes.IMPLICITLY_WAIT, TimeUnit.SECONDS);
         java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(Level.SEVERE);
         driver.manage().window().maximize();
         driver.get(Paths.URL);

@@ -6,16 +6,12 @@
     </listeners>
     <test name="Chrome">
         <parameter name="browser" value="Chrome"/>
-        <parameter name="platform" value="Windows 10"/>
-        <parameter name="remote" value="false"/>
         <classes>
             <class name="testing.testcases.SearchWeatherTest"/>
         </classes>
     </test>
     <test name="FireFox">
         <parameter name="browser" value="Firefox"/>
-        <parameter name="platform" value="Windows 10"/>
-        <parameter name="remote" value="false"/>
         <classes>
             <class name="testing.testcases.SearchWeatherTest"/>
         </classes>

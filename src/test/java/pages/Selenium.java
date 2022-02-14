@@ -1,6 +1,6 @@
 package pages;
 
-import constants.WebDriver_Props;
+import constants.WaitTimes;
 import drivers.DriverBase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,7 +14,7 @@ public class Selenium extends DriverBase {
 
     public Selenium(WebDriver driver){
         this.driver =driver;
-        this.wait = new WebDriverWait(driver,WebDriver_Props.EXPLICITLY_WAIT);
+        this.wait = new WebDriverWait(driver, WaitTimes.EXPLICITLY_WAIT);
     }
 
     public void waitUntilClickable(WebElement we) {

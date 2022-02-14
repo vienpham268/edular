@@ -1,6 +1,6 @@
 package utils;
 
-import constants.WebDriver_Props;
+import constants.WaitTimes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -20,14 +20,14 @@ public class Verifications {
         new Selenium(driver).driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         try {
             if (we.getAttribute(sAttribute).contains(expectedValue)) {
-                this.driver.manage().timeouts().implicitlyWait(WebDriver_Props.IMPLICITLY_WAIT, TimeUnit.SECONDS);
+                this.driver.manage().timeouts().implicitlyWait(WaitTimes.IMPLICITLY_WAIT, TimeUnit.SECONDS);
                 return true;
             }
             LOGGER.error("Attribute:'" + sAttribute + "' has actual value is: " + we.getAttribute(sAttribute)
                     + " , It should be: " + expectedValue + " as expected");
             new Results(driver).setFailedBy("Attribute:'" + sAttribute + "' has actual value is: " + we.getAttribute(sAttribute)
                     + " , It should be: " + expectedValue + " as expected");
-            this.driver.manage().timeouts().implicitlyWait(WebDriver_Props.IMPLICITLY_WAIT, TimeUnit.SECONDS);
+            this.driver.manage().timeouts().implicitlyWait(WaitTimes.IMPLICITLY_WAIT, TimeUnit.SECONDS);
             return false;
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -35,7 +35,7 @@ public class Verifications {
                     "Exception when try to verify Attribute:'" + sAttribute + "' of " + weName + " " + we.toString());
             new Results(driver).setFailedBy(
                     "Exception when try to verify Attribute:'" + sAttribute + "' of " + weName + " " + we.toString());
-            this.driver.manage().timeouts().implicitlyWait(WebDriver_Props.IMPLICITLY_WAIT, TimeUnit.SECONDS);
+            this.driver.manage().timeouts().implicitlyWait(WaitTimes.IMPLICITLY_WAIT, TimeUnit.SECONDS);
             return false;
         }
     }
@@ -115,10 +115,10 @@ public class Verifications {
             we.isDisplayed();
             LOGGER.error(weName + we.toString() + " is still displayed");
             new Results(driver).setFailedBy(weName + we.toString() + " is still displayed");
-            this.driver.manage().timeouts().implicitlyWait(WebDriver_Props.IMPLICITLY_WAIT, TimeUnit.SECONDS);
+            this.driver.manage().timeouts().implicitlyWait(WaitTimes.IMPLICITLY_WAIT, TimeUnit.SECONDS);
             return false;
         } catch (Exception e) {
-            this.driver.manage().timeouts().implicitlyWait(WebDriver_Props.IMPLICITLY_WAIT, TimeUnit.SECONDS);
+            this.driver.manage().timeouts().implicitlyWait(WaitTimes.IMPLICITLY_WAIT, TimeUnit.SECONDS);
             return true;
         }
 
@@ -166,10 +166,10 @@ public class Verifications {
             we.click();
             LOGGER.error(weName + we.toString() + "is clickable!");
             new Results(driver).setFailedBy(weName + we.toString() + "is still clickable!");
-            this.driver.manage().timeouts().implicitlyWait(WebDriver_Props.IMPLICITLY_WAIT, TimeUnit.SECONDS);
+            this.driver.manage().timeouts().implicitlyWait(WaitTimes.IMPLICITLY_WAIT, TimeUnit.SECONDS);
             return false;
         } catch (Exception e) {
-            this.driver.manage().timeouts().implicitlyWait(WebDriver_Props.IMPLICITLY_WAIT, TimeUnit.SECONDS);
+            this.driver.manage().timeouts().implicitlyWait(WaitTimes.IMPLICITLY_WAIT, TimeUnit.SECONDS);
             return true;
         }
     }
@@ -178,14 +178,14 @@ public class Verifications {
         try {
             this.driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
             we.click();
-            this.driver.manage().timeouts().implicitlyWait(WebDriver_Props.IMPLICITLY_WAIT, TimeUnit.SECONDS);
+            this.driver.manage().timeouts().implicitlyWait(WaitTimes.IMPLICITLY_WAIT, TimeUnit.SECONDS);
             return true;
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
             LOGGER.error(weName + we.toString() + "is UnClickable!");
             new Results(driver).setFailedBy(weName + we.toString() + "is still UnClickable!");
-            this.driver.manage().timeouts().implicitlyWait(WebDriver_Props.IMPLICITLY_WAIT, TimeUnit.SECONDS);
+            this.driver.manage().timeouts().implicitlyWait(WaitTimes.IMPLICITLY_WAIT, TimeUnit.SECONDS);
             return false;
         }
     }
