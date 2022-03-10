@@ -1,13 +1,14 @@
 package testing.testcases;
 
-import constants.Paths;
+import constants.Environments;
 import constants.WaitTimes;
 import drivers.DriverFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
-import utils.Results;
+import pages.LoginPage;
+import testing.Results;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -28,8 +29,8 @@ public class BaseTest {
         driver.manage().timeouts().implicitlyWait(WaitTimes.IMPLICITLY_WAIT, TimeUnit.SECONDS);
         java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(Level.SEVERE);
         driver.manage().window().maximize();
-        driver.get(Paths.URL);
-
+        driver.get(Environments.URL);
+        new LoginPage(driver).enterCredentials(Environments.USERNAME, Environments.PASSWORD);
     }
 
     @AfterMethod

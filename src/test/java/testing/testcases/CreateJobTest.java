@@ -1,47 +1,35 @@
 package testing.testcases;
 
-import data.DP;
+import models.JobAllocationModel;
+import models.JobDetailsModel;
 import org.testng.annotations.Test;
-import pages.CityPage;
-import pages.NavBar;
-import pages.SearchResultPage;
+import pages.Header;
 import testing.testng.TestFrame;
 
-public class SearchWeatherTest extends BaseTest {
+public class CreateJobTest extends BaseTest {
 
-    @Test(dataProvider = "valid_queries", dataProviderClass = DP.class, priority = 1)
-
-    public void validSearch(String validQuery) {
+    @Test
+    public void createScheduleJob() {
+        JobDetailsModel job = new JobDetailsModel();
+        JobAllocationModel allocation = new JobAllocationModel();
         new TestFrame("001") {
             @Override
             public void steps() {
-                new NavBar(driver).searchLocation(validQuery);
-                new SearchResultPage(driver).clickOnCityLink();
-                new CityPage(driver).verifyPageShownCorrectly("Hanoi, VN");
+                new Header(driver).searchValidContact("Jenny John Dow")
+                        .clickOnScheduleJobButton()
+                        .createScheduleJobFields(job)
+                        .clickOnAllocateResourceButton()
+                        .updateAllocatedResource(allocation.getResource())
+                        .goToPersonalContactPage();
+                new Header(driver).clickOnJobTab().openNewestJob()
+                        .verifyJobDetails(job)
+                        .clickOnRelatedTab()
+                        .openJobAllocationDetails().verifyJobAllocationDetails(allocation);
+
+
             }
         }.run();
     }
 
-    @Test(dataProvider = "invalid_queries", dataProviderClass = DP.class, priority = 2)
-    public void invalidSearch(String invalidQuery) {
-        new TestFrame("002") {
-            @Override
-            public void steps() {
-                new NavBar(driver).searchLocation(invalidQuery);
-                new SearchResultPage(driver).verifyNotFoundShown();
-            }
-        }.run();
-    }
-
-    @Test(enabled = false)
-    public void emptySearch() {
-        new TestFrame("003") {
-            @Override
-            public void steps() {
-                new NavBar(driver).searchLocation("");
-                new SearchResultPage(driver).clickOnCityLink();
-            }
-        }.run();
-    }
 
 }

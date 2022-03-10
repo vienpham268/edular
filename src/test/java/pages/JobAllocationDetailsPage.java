@@ -1,72 +1,43 @@
 package pages;
 
-import models.JobDetailsModel;
+import models.JobAllocationModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.testng.Assert;
-import pages.modals.JobDetailsModal;
 import testing.DriverActions;
 import testing.Results;
 import testing.Verify;
 
-import java.util.List;
 
-public class JobDetailsPage extends DriverActions {
-    private static final Logger LOGGER = LogManager.getLogger(JobDetailsPage.class);
+public class JobAllocationDetailsPage extends DriverActions {
+    private static final Logger LOGGER = LogManager.getLogger(JobAllocationDetailsPage.class);
 
-    public JobDetailsPage(WebDriver driver) {
+    public JobAllocationDetailsPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(this.driver, this);
     }
 
-    @FindBy(xpath = "//span[text()='Job Status']/../../div[2]/span//*[@slot='outputField']")
-    WebElement txtJobStatus;
+    @FindBy(xpath = "//span[text()='Resource']/../../div[2]//div[@class='slds-grid']//span")
+    WebElement txtResource;
 
-    @FindBy(xpath = "//span[text()='Start']/../../div[2]/span//*[@slot='outputField']")
-    WebElement startTime;
-
-    @FindBy(xpath = "//span[text()='Finish']/../../div[2]/span//*[@slot='outputField']")
-    WebElement finishTime;
-
-    @FindBy(xpath = "//a[@data-label='Related']")
-    WebElement aRelated;
+    @FindBy(xpath = "//span[text()='Status']/../../div[2]//slot/*")
+    WebElement txtStatus;
 
 
-    public JobRelatedPage clickOnRelatedTab() {
+
+    public JobAllocationDetailsPage verifyJobAllocationDetails(JobAllocationModel allocation) {
+        LOGGER.info("Verifying Job Allocation details...");
         try {
-            clickOnWithAction(aRelated, "Related Tab");
-        } catch (NoSuchElementException e) {
-            new Results(driver).setFailedBy(e.getMessage());
-            Assert.assertTrue(Results.result);
-        }
-
-        return new JobRelatedPage(driver);
-    }
-
-    public JobDetailsPage verifyJobDetails(JobDetailsModel job) {
-        LOGGER.info("Verifying Job details...");
-        try {
-            verifyTime(job);
-            verifyJobStatus();
+            new Verify(driver).verifyTextValueEquals(txtResource,"Resource",allocation.getResource());
+            new Verify(driver).verifyTextValueEquals(txtStatus,"Status",allocation.getStatus());
         } catch (Exception e) {
             new Results(driver).setFailedBy(e.getMessage());
         }
-        return new JobDetailsPage(driver);
+        return new JobAllocationDetailsPage(driver);
     }
 
-
-    private void verifyJobStatus() {
-        new Verify(driver).verifyTextValueEquals(txtJobStatus, "Job Status", "Dispatched");
-    }
-
-    private void verifyTime(JobDetailsModel job) {
-        new Verify(driver).verifyTextValueEquals(startTime, "Start time", job.getStartDate() + " " + job.getStartTime());
-        new Verify(driver).verifyTextValueEquals(finishTime, "Finish time", job.getStartDate() + " " + job.getFinishTime());
-    }
 
 }

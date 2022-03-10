@@ -1,4 +1,4 @@
-package data;
+package constants;
 
 public class Environments {
     public static final String URL = "https://test.salesforce.com";

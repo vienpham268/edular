@@ -13,19 +13,4 @@ public class DriverBase {
         return this.driver;
     }
 
-//    public void setRemoteDriver() {
-//
-//    }
-
-//    public WebDriver getDriver(boolean bRemote) {
-//        if (driver == null) {
-//            if (bRemote) {
-//                setRemoteDriver();
-//            } else {
-//                setLocalDriver();
-//            }
-//        }
-//        return this.driver;
-//    }
-
 }

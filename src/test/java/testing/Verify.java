@@ -5,13 +5,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.asserts.SoftAssert;
 
 import java.util.concurrent.TimeUnit;
 
-public class Verifications {
-    private static final Logger LOGGER = LogManager.getLogger(Verifications.class);
+public class Verify {
+    private static final Logger LOGGER = LogManager.getLogger(Verify.class);
     WebDriver driver;
-    public Verifications(WebDriver driver){
+
+    public Verify(WebDriver driver) {
         this.driver = driver;
     }
 
@@ -39,7 +41,7 @@ public class Verifications {
         }
     }
 
-    public  boolean verifyCSSValue(WebElement we, String weName, String CSSproperty, String expectedValue) {
+    public boolean verifyCSSValue(WebElement we, String weName, String CSSproperty, String expectedValue) {
         try {
             if (we.getCssValue(CSSproperty).trim().contains(expectedValue)) {
                 return true;
@@ -59,7 +61,7 @@ public class Verifications {
         }
     }
 
-    public  void verifyTextValueContains(WebElement we, String weName, String expectedValue) {
+    public void verifyTextValueContains(WebElement we, String weName, String expectedValue) {
         try {
             if (!we.getText().trim().contains(expectedValue.trim())) {
                 LOGGER.error("------>Verify " + weName + ": Actual text is: " + we.getText() + " , It should be: " + expectedValue
@@ -75,8 +77,8 @@ public class Verifications {
         }
     }
 
-    public  boolean verifyTextValueEquals(WebElement we, String weName, String expectedValue) {
-        LOGGER.info("------>Verify text value of " + weName);
+    public boolean verifyTextValueEquals(WebElement we, String weName, String expectedValue) {
+        LOGGER.info("------>Verify " + weName + " is " + expectedValue);
         try {
             if (we.getText().trim().equals(expectedValue.trim())) {
                 return true;
@@ -96,7 +98,7 @@ public class Verifications {
         }
     }
 
-    public  void verifyElementDisplay(WebElement we, String weName) {
+    public void verifyElementDisplay(WebElement we, String weName) {
         try {
             we.isDisplayed();
             LOGGER.info("------>Verify " + weName + " display: PASSED");
@@ -123,7 +125,7 @@ public class Verifications {
 
     }
 
-    public  boolean verifyElementEnable(WebElement we, String weName) {
+    public boolean verifyElementEnable(WebElement we, String weName) {
         try {
             if (we.isEnabled()) {
                 return true;
@@ -141,7 +143,7 @@ public class Verifications {
         }
     }
 
-    public  boolean verifyElementDisable(WebElement we, String weName) {
+    public boolean verifyElementDisable(WebElement we, String weName) {
         try {
             if (!we.isEnabled()) {
                 return true;

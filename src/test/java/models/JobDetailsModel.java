@@ -1,18 +1,21 @@
 package models;
 
 import constants.Job;
+import utils.DatePicker;
 
-public class JobScheduleModel {
-    private String startDate, startTime, duration, urgency, description, region, addressType, address, billable, travelArea, serviceSetting, deliveryMethod, category, serviceAgreement, quantity;
+public class JobDetailsModel {
+    private String startDate, startTime, finishTime, duration, urgency, description, region, addressType, address, billable, travelArea, serviceSetting, deliveryMethod, category, serviceAgreement, quantity;
 
 
     /**
      * Default constructor --> create default job
      */
-    public JobScheduleModel() {
-        this.startDate = "16/3/2022";
-        this.startTime = "13:00";
+    public JobDetailsModel() {
+        System.out.println("Start Date equals currentDate + 7");
+        this.startDate = new DatePicker().getDateFromCurrentDate(7);
+        this.startTime = "10:00 AM";
         this.duration = "2";
+        this.finishTime = "12:00 PM";
         this.urgency = Job.Urgency.NORMAL;
         this.description = "This is a test automation of VienPham";
         this.region = "Sydney";
@@ -98,6 +101,11 @@ public class JobScheduleModel {
     public String getStartTime() {
         return startTime;
     }
+
+    public String getFinishTime() {
+        return finishTime;
+    }
+
 
     public String getDuration() {
         return duration;

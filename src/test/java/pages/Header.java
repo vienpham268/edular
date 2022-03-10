@@ -12,12 +12,13 @@ import testing.Results;
 
 import java.util.List;
 
-public class NavBar extends DriverActions {
-    private static final Logger LOGGER = LogManager.getLogger(NavBar.class);
+public class Header extends DriverActions {
+    private static final Logger LOGGER = LogManager.getLogger(Header.class);
 
-    public NavBar(WebDriver driver) {
+    public Header(WebDriver driver) {
         super(driver);
         PageFactory.initElements(this.driver, this);
+
     }
 
     @FindBy(xpath = "//input[@placeholder='Search...']")
@@ -26,17 +27,34 @@ public class NavBar extends DriverActions {
     @FindBy(xpath = "//div[@class='listContent']/ul[@role='presentation']/li")
     List<WebElement> listContact;
 
-    public PersonalContactPage searchValidContact(String contactName) {
+    @FindBy(xpath = "//a[@title='Jobs']/parent::*")
+    WebElement aJob;
+
+    public ContactDetailsPage searchValidContact(String contactName) {
         LOGGER.info("Searching contact " + contactName + " ...");
         try {
             sendText(inputSearch, "Search Form", contactName);
             clickOn(listContact.get(1), "First result on List");
-            return new PersonalContactPage(driver);
+            return new ContactDetailsPage(driver);
         } catch (Exception e) {
             new Results(driver).setFailedBy(e.getMessage());
             Assert.assertTrue(Results.result);
         }
         return null;
     }
+
+    public AllJobsPage clickOnJobTab() {
+        driver.switchTo().defaultContent();
+        LOGGER.info("Navigating to All Jobs page");
+        try {
+            clickOnWithAction(aJob, "Job Tab");
+            return new AllJobsPage(driver);
+        } catch (Exception e) {
+            new Results(driver).setFailedBy(e.getMessage());
+            Assert.assertTrue(Results.result);
+        }
+        return null;
+    }
+
 
 }

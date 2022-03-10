@@ -1,7 +1,9 @@
 package pages;
 
+import models.JobDetailsModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,34 +11,59 @@ import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import testing.DriverActions;
 import testing.Results;
+import testing.Verify;
 
-public class LoginPage extends DriverActions {
-    private static final Logger LOGGER = LogManager.getLogger(LoginPage.class);
+public class JobDetailsPage extends DriverActions {
+    private static final Logger LOGGER = LogManager.getLogger(JobDetailsPage.class);
 
-    public LoginPage(WebDriver driver) {
+    public JobDetailsPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(this.driver, this);
     }
 
-    @FindBy(id = "username")
-    WebElement inputUser;
+    @FindBy(xpath = "//span[text()='Job Status']/../../div[2]/span//*[@slot='outputField']")
+    WebElement txtJobStatus;
 
-    @FindBy(id = "password")
-    WebElement inputPwd;
+    @FindBy(xpath = "//span[text()='Start']/../../div[2]/span//*[@slot='outputField']")
+    WebElement startTime;
 
-    @FindBy(id = "Login")
-    WebElement btnLogin;
+    @FindBy(xpath = "//span[text()='Finish']/../../div[2]/span//*[@slot='outputField']")
+    WebElement finishTime;
 
-    public void enterCredentials(String username, String password) {
-        LOGGER.info("Entering Salesforce credentials...");
+    @FindBy(xpath = "//a[@data-label='Related']")
+    WebElement aRelated;
+
+
+    public JobRelatedPage clickOnRelatedTab() {
         try {
-            this.sendText(inputUser,"Username Form", username);
-            this.sendText(inputPwd,"Password Form", password);
-            this.clickOn(btnLogin, "Button Login");
-        } catch (Exception e) {
+            clickOnWithAction(aRelated, "Related Tab");
+        } catch (NoSuchElementException e) {
             new Results(driver).setFailedBy(e.getMessage());
             Assert.assertTrue(Results.result);
         }
+
+        return new JobRelatedPage(driver);
+    }
+
+    public JobDetailsPage verifyJobDetails(JobDetailsModel job) {
+        LOGGER.info("Verifying Job details...");
+        try {
+            verifyTime(job);
+            verifyJobStatus();
+        } catch (Exception e) {
+            new Results(driver).setFailedBy(e.getMessage());
+        }
+        return new JobDetailsPage(driver);
+    }
+
+
+    private void verifyJobStatus() {
+        new Verify(driver).verifyTextValueEquals(txtJobStatus, "Job Status", "Dispatched");
+    }
+
+    private void verifyTime(JobDetailsModel job) {
+        new Verify(driver).verifyTextValueEquals(startTime, "Start time", job.getStartDate() + " " + job.getStartTime());
+        new Verify(driver).verifyTextValueEquals(finishTime, "Finish time", job.getStartDate() + " " + job.getFinishTime());
     }
 
 }

@@ -18,7 +18,7 @@ public class DriverChrome extends DriverBase {
 
     @Override
     public WebDriver getDriver() {
-        System.setProperty("webdriver.chrome.driver", Paths.DRIVER_CHROME);
+        System.setProperty("webdriver.chrome.driver", Paths.DRIVER_CHROME_MAC);
         System.setProperty("webdriver.chrome.args", "--disable-logging");
         System.setProperty("webdriver.chrome.silentOutput", "true");
 
@@ -26,7 +26,7 @@ public class DriverChrome extends DriverBase {
         loPreferences.enable(LogType.PERFORMANCE, Level.ALL);
         ChromeOptions opt = new ChromeOptions();
         opt.setCapability(CapabilityType.LOGGING_PREFS, loPreferences);
-
+        opt.addArguments("disable-popup-blocking");
         driver = new ChromeDriver(opt);
         return driver;
     }

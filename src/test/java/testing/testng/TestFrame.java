@@ -1,7 +1,7 @@
 package testing.testng;
 
 import org.testng.Assert;
-import utils.Results;
+import testing.Results;
 
 public abstract class TestFrame {
     public String testID;

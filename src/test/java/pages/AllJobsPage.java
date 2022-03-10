@@ -10,29 +10,34 @@ import org.testng.Assert;
 import testing.DriverActions;
 import testing.Results;
 
-public class JobPage extends DriverActions {
-    private static final Logger LOGGER = LogManager.getLogger(JobPage.class);
+public class AllJobsPage extends DriverActions {
+    private static final Logger LOGGER = LogManager.getLogger(AllJobsPage.class);
 
-    public JobPage(WebDriver driver) {
+    public AllJobsPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(this.driver, this);
     }
 
-    @FindBy(id = "username")
-    WebElement inputUser;
+    @FindBy(xpath = "//span[@title='Job Name']/../../../../../../tbody/tr[1]//th//a")
+    WebElement aNewestJob;
 
-    @FindBy(id = "password")
-    WebElement inputPwd;
 
-    @FindBy(id = "Login")
-    WebElement btnLogin;
-
-    public void enterCredentials(String username, String password) {
-        LOGGER.info("Entering Salesforce credentials...");
+    public JobDetailsPage openNewestJob() {
+        LOGGER.info("Opening Newest job...");
         try {
-            this.sendText(inputUser,"Username Form", username);
-            this.sendText(inputPwd,"Password Form", password);
-            this.clickOn(btnLogin, "Button Login");
+            Thread.sleep(5000);
+            clickOnWithAction(aNewestJob, "Newest Job");
+        } catch (Exception e) {
+            new Results(driver).setFailedBy(e.getMessage());
+            Assert.assertTrue(Results.result);
+        }
+        return new JobDetailsPage(driver);
+    }
+
+    public void openSpecificJob(String jobName) {
+        LOGGER.info("Opening Job name" + jobName);
+        try {
+
         } catch (Exception e) {
             new Results(driver).setFailedBy(e.getMessage());
             Assert.assertTrue(Results.result);

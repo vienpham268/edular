@@ -1,4 +1,4 @@
-package pages;
+package pages.modals;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,10 +21,10 @@ public class ResourceAllocationModal extends DriverActions {
     @FindBy(xpath = "//button[text()='Allocate Resources']")
     WebElement btnAllocateResources;
 
-    public JobDetailsPage clickOnAllocateResourceButton() {
+    public JobNewModal clickOnAllocateResourceButton() {
         try {
             clickOnWithAction(btnAllocateResources, "Button Allocate Resource");
-            return new JobDetailsPage(driver);
+            return new JobNewModal(driver);
         } catch (Exception e) {
             new Results(driver).setFailedBy(e.getMessage());
             Assert.assertTrue(Results.result);

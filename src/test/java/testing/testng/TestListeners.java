@@ -6,7 +6,7 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 import testing.testreport.Extent_Manager;
 import testing.testreport.Extent_Test_Manager;
-import utils.Results;
+import testing.Results;
 
 public class TestListeners implements ITestListener {
 

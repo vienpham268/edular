@@ -15,10 +15,10 @@ import testing.Results;
 
 import java.util.List;
 
-public class JobDetailsModal extends DriverActions {
-    private static final Logger LOGGER = LogManager.getLogger(JobDetailsModal.class);
+public class JobNewModal extends DriverActions {
+    private static final Logger LOGGER = LogManager.getLogger(JobNewModal.class);
 
-    public JobDetailsModal(WebDriver driver) {
+    public JobNewModal(WebDriver driver) {
         super(driver);
         PageFactory.initElements(this.driver, this);
     }
@@ -69,6 +69,9 @@ public class JobDetailsModal extends DriverActions {
     @FindBy(xpath = "//label[text()=' Address ']/../div//input")
     WebElement inputAddress;
 
+    @FindBy(xpath = "//div[@class='slds-modal__container']")
+    WebElement modalJobNew;
+
     String sUrgency = "//select[@name='jobUrgency']/option[@label='%s']";
 
     String sAddressType = "//select[@name='addressType']/option[@label='%s']";
@@ -94,7 +97,7 @@ public class JobDetailsModal extends DriverActions {
     public ResourceAllocationModal createScheduleJobFields(JobDetailsModel job) {
         LOGGER.info("Creating new schedule job..");
         try {
-            
+//            waitUntilVisibility(modalJobNew);
             Thread.sleep(20000);
             driver.switchTo().frame(0);
             sendTextWithAction(inputStartDate, "Start Date", job.getStartDate());
@@ -144,7 +147,7 @@ public class JobDetailsModal extends DriverActions {
             for (WebElement btnRemove : listBtnTagsRemove) {
                 clickOnWithAction(btnRemove, "Button Tag remove");
             }
-        } catch (NoSuchElementException|InterruptedException e) {
+        } catch (NoSuchElementException | InterruptedException e) {
             LOGGER.error(e.getMessage());
             throw e;
         }
