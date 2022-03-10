@@ -2,35 +2,34 @@ package pages;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
-import utils.Results;
+import testing.DriverActions;
+import testing.Results;
 
-public class NavBar extends Selenium {
-    private static final Logger LOGGER = LogManager.getLogger(NavBar.class);
-    public NavBar(WebDriver driver) {
+public class JobEditModal extends DriverActions {
+    private static final Logger LOGGER = LogManager.getLogger(JobEditModal.class);
+
+    public JobEditModal(WebDriver driver) {
         super(driver);
         PageFactory.initElements(this.driver, this);
     }
 
-    @FindBy(xpath = "//div[@id='desktop-menu']/form/input[@type='text']")
-    WebElement input_Search;
+    @FindBy(xpath = "//button[text()='Allocate Resources']")
+    WebElement btnAllocateResources;
 
-
-    public void searchLocation(String query) {
+    public JobDetailsPage clickOnAllocateResourceButton() {
         try {
-            LOGGER.info("Searching " + query + " ...");
-            this.sendTextOnElement(input_Search, query);
-            input_Search.sendKeys(Keys.ENTER);
+            clickOnWithAction(btnAllocateResources, "Button Allocate Resource");
+            return new JobDetailsPage(driver);
         } catch (Exception e) {
             new Results(driver).setFailedBy(e.getMessage());
             Assert.assertTrue(Results.result);
         }
+        return null;
     }
-
 
 }

@@ -1,11 +1,10 @@
-package utils;
+package testing;
 
 import constants.WaitTimes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import pages.Selenium;
 
 import java.util.concurrent.TimeUnit;
 
@@ -17,7 +16,7 @@ public class Verifications {
     }
 
     public boolean verifyAttributeValue(WebElement we, String weName, String sAttribute, String expectedValue) {
-        new Selenium(driver).driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+        new DriverActions(driver).driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         try {
             if (we.getAttribute(sAttribute).contains(expectedValue)) {
                 this.driver.manage().timeouts().implicitlyWait(WaitTimes.IMPLICITLY_WAIT, TimeUnit.SECONDS);

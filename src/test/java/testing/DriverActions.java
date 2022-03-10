@@ -1,19 +1,21 @@
-package pages;
+package utils;
 
 import constants.WaitTimes;
-import drivers.DriverBase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class Selenium extends DriverBase {
-    private static final Logger LOGGER = LogManager.getLogger(Selenium.class);
+public class DriverActions {
+    private static final Logger LOGGER = LogManager.getLogger(DriverActions.class);
+    protected WebDriver driver;
+    WebDriverWait wait;
 
-    public Selenium(WebDriver driver){
-        this.driver =driver;
+    public DriverActions(WebDriver driver) {
+        this.driver = driver;
         this.wait = new WebDriverWait(driver, WaitTimes.EXPLICITLY_WAIT);
     }
 
@@ -27,22 +29,24 @@ public class Selenium extends DriverBase {
         }
     }
 
-    public void clickOnElement(WebElement we) throws Exception {
+    public void clickOnElement(WebElement we) throws NoSuchElementException {
         try {
             waitUntilClickable(we);
             we.click();
-        } catch (Exception e) {
+        } catch (NoSuchElementException e) {
             LOGGER.error(e.getMessage());
             throw e;
         }
 
     }
 
-    public void sendTextOnElement(WebElement we, String sText) throws Exception {
+    public void sendTextOnElement(WebElement we, String sText) throws NoSuchElementException {
         try {
+            waitUntilClickable(we);
             we.clear();
             we.sendKeys(sText);
-        } catch (Exception e) {
+            we.click();
+        } catch (NoSuchElementException e) {
             LOGGER.error(e.getMessage());
             throw e;
         }
